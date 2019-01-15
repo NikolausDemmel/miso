@@ -1,14 +1,15 @@
 cmake_minimum_required(VERSION 2.8)
 
-set( project miso )
-project( ${project} )
+project( miso )
 
-set(${project}_sources 
-	miso.cpp
-	miso.h
+set(miso_sources 
+	include/miso/miso.h
+    miso.cpp
 )
 
-add_executable( ${project} ${${project}_sources}) 
+add_executable( test_miso ${miso_sources})
 
-set_property(TARGET ${project} PROPERTY CXX_STANDARD 11)
+target_include_directories( test_miso PUBLIC include )
+
+set_property(TARGET test_miso PROPERTY CXX_STANDARD 11)
 

@@ -1,43 +1,40 @@
-#include "miso.h"
+#include "miso/miso.h"
 #include <iostream>
 
 /* This is a file you definitely don't need in your project */
 
-struct d_class
-{
-    int hh = 67;
+struct d_class {
+  int hh = 67;
 };
 
 struct a_class {
-    miso::signal<int> m_s;
-    miso::signal<d_class> m_s2;
+  miso::signal<int> m_s;
+  miso::signal<d_class> m_s2;
 
-    void say_hello() {
-        emit m_s(42);
-        emit m_s2(d_class());
-    }
+  void say_hello() {
+    emit m_s(42);
+    emit m_s2(d_class());
+  }
 };
 
-
 struct functor {
-    void operator()(int aa) {
-        std::cout << "functor class's int slot:" << aa << std::endl;
-    }
+  void operator()(int aa) {
+    std::cout << "functor class's int slot:" << aa << std::endl;
+  }
 
-    void operator()(d_class aa) {
-        std::cout << "functor class's d_class slot:" << aa.hh << std::endl;
-    }
-
+  void operator()(d_class aa) {
+    std::cout << "functor class's d_class slot:" << aa.hh << std::endl;
+  }
 };
 
 int main() {
-    a_class a;
-    functor f;
+  a_class a;
+  functor f;
 
-    miso::connect(a.m_s, f);
-    miso::connect(a.m_s2, f);
+  miso::connect(a.m_s, f);
+  miso::connect(a.m_s2, f);
 
-    a.say_hello();
+  a.say_hello();
 }
 /*
 struct d_class
@@ -57,7 +54,7 @@ struct functor {
     void operator()(int aa) {
         std::cout << "functor class's int slot:" << aa << std::endl;
         auto ap = miso::sender<a_class>();
-        std::cout << "x in emitter class:" << ap->x << std::endl;    
+        std::cout << "x in emitter class:" << ap->x << std::endl;
     }
     int x = 6;
 };
@@ -69,7 +66,6 @@ int main() {
 } */
 
 /**/
-
 
 /*
 #include <ctime>
@@ -128,7 +124,7 @@ class my_class
 {
 public:
 
-	my_class(int f) : mf(f) {}
+        my_class(int f) : mf(f) {}
 
     void some_method()
     {
@@ -138,38 +134,38 @@ public:
     miso::signal<> click;
 
 
-	int mf = 0;
+        int mf = 0;
 
 };
 
 
 void global_int_method(int s)
 {
-	more_class* x = sender<more_class>();
-	std::cout << "global int method:" << s << std::endl;
+        more_class* x = sender<more_class>();
+        std::cout << "global int method:" << s << std::endl;
 
-	if(s == 7) x->run(1234);
+        if(s == 7) x->run(1234);
 }
 
 
 void global_void_method()
 {
-	std::cout << "global void method:" << std::endl;
-	auto x = sender<my_class>();
-	std::cout << "is:" << x << " " << x->mf << std::endl ;
+        std::cout << "global void method:" << std::endl;
+        auto x = sender<my_class>();
+        std::cout << "is:" << x << " " << x->mf << std::endl ;
 }
 
 struct functor
 {
-	void operator()()
-	{
-		std::cout << "functor class" << std::endl;
-	}
+        void operator()()
+        {
+                std::cout << "functor class" << std::endl;
+        }
 
-	void operator()(int aa)
-	{
-		std::cout << "functor class's int slot:" << aa << std::endl;
-	}
+        void operator()(int aa)
+        {
+                std::cout << "functor class's int slot:" << aa << std::endl;
+        }
 };
 
 
@@ -202,21 +198,22 @@ int main(int argc, char const *argv[])
 
     auto lambdi = [](int c) {std::cout << "lambdint:" << c << std::endl; };
     connect(mc.ms, lambdi);
-    connect(mc.ms, std::bind(&other_class::clicked_again, dst, std::placeholders::_1));
+    connect(mc.ms, std::bind(&other_class::clicked_again, dst,
+std::placeholders::_1));
 
     std::cout << "\nOriginal\n" << std::endl;
-	
-	mc.run(7);
+        
+        mc.run(7);
 
-	std::cout << "\nDisconnect\n" << std::endl;
+        std::cout << "\nDisconnect\n" << std::endl;
 
-	mc.ms.disconnect(global_int_method);
-	mc.ms.disconnect(other_global_int_method);
-	mc.ms.disconnect(lambdi);
+        mc.ms.disconnect(global_int_method);
+        mc.ms.disconnect(other_global_int_method);
+        mc.ms.disconnect(lambdi);
 
-	std::cout << "\nAfter disconnect\n" << std::endl;
+        std::cout << "\nAfter disconnect\n" << std::endl;
 
-	mc.run(8);
+        mc.run(8);
     return 0;
 }
 /**/
