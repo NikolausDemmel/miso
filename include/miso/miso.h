@@ -8,6 +8,7 @@
 #include <tuple>
 #include <type_traits>
 #include <vector>
+#include <stdexcept>
 
 namespace miso {
 template <class... Args>
